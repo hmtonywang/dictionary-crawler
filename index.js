@@ -1,14 +1,15 @@
 'use strict';
 
-const axios = require('axios');
 const cheerio = require('cheerio');
 const dictionaryCrawlers = require('./src');
 
 const crawlers = {};
 
 async function load (url) {
-  const res = await axios.get(url);
-  return cheerio.load(res.data);
+  const res = await fetch(url);
+  const blob = await res.blob();
+  const text = await blob.text();
+  return cheerio.load(text);
 }
 
 function setCrawler (crawler) {

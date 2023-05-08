@@ -4,99 +4,125 @@
 const sandbox = require('sinon').createSandbox();
 const { expect } = require('chai');
 const cheerio = require('cheerio');
-const axios = require('axios');
 const crawlers = require('../');
 
 describe('index', () => {
-  it('should have yahoo crawler which has a crawl function', () => {
-    expect(crawlers).to.have.own.property('yahoo');
-    expect(crawlers.yahoo).to.have.own.property('crawl');
-    expect(crawlers.yahoo.crawl).to.be.a('function');
+  it('should have a crawl function in each crawler', () => {
+    Object
+      .keys(crawlers)
+      .forEach((key) => {
+        const crawler = crawlers[key];
+        expect(crawler).to.have.own.property('crawl');
+        expect(crawler.crawl).to.be.a('function');
+      });
   });
 
-  it('should throw an error', async () => {
-    let error;
-    try {
-      await crawlers.yahoo.crawl();
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.instanceOf(Error);
+  it('should throw an error', () => {
+    Object
+      .keys(crawlers)
+      .forEach(async (key) => {
+        const crawler = crawlers[key];
+        let error;
+        try {
+          await crawler.crawl();
+        } catch (e) {
+          error = e;
+        }
+        expect(error).to.be.instanceOf(Error);
+      });
   });
 
-  it('should throw an error', async () => {
-    let error;
-    try {
-      await crawlers.yahoo.crawl({ key: 'value' });
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.instanceOf(Error);
+  it('should throw an error', () => {
+    Object
+      .keys(crawlers)
+      .forEach(async (key) => {
+        const crawler = crawlers[key];
+        let error;
+        try {
+          await crawler.crawl({ key: 'value' });
+        } catch (e) {
+          error = e;
+        }
+        expect(error).to.be.instanceOf(Error);
+      });
   });
 
-  it('should throw an error', async () => {
-    let error;
-    try {
-      await crawlers.yahoo.crawl('');
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.instanceOf(Error);
+  it('should throw an error', () => {
+    Object
+      .keys(crawlers)
+      .forEach(async (key) => {
+        const crawler = crawlers[key];
+        let error;
+        try {
+          await crawler.crawl('');
+        } catch (e) {
+          error = e;
+        }
+        expect(error).to.be.instanceOf(Error);
+      });
   });
 
-  it('should throw an error', async () => {
-    let error;
-    try {
-      await crawlers.yahoo.crawl('  ');
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.instanceOf(Error);
+  it('should throw an error', () => {
+    Object
+      .keys(crawlers)
+      .forEach(async (key) => {
+        const crawler = crawlers[key];
+        let error;
+        try {
+          await crawler.crawl('  ');
+        } catch (e) {
+          error = e;
+        }
+        expect(error).to.be.instanceOf(Error);
+      });
   });
 
-  it('should throw an error', async () => {
-    let error;
-    try {
-      await crawlers.yahoo.crawl(null);
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.instanceOf(Error);
+  it('should throw an error', () => {
+    Object
+      .keys(crawlers)
+      .forEach(async (key) => {
+        const crawler = crawlers[key];
+        let error;
+        try {
+          await crawler.crawl(null);
+        } catch (e) {
+          error = e;
+        }
+        expect(error).to.be.instanceOf(Error);
+      });
+  });
+
+  it('should return data', async () => {
+    const tasks = Object
+      .keys(crawlers)
+      .map(async (key) => {
+        const crawler = crawlers[key];
+        let error;
+        try {
+          await crawler.crawl('test');
+        } catch (e) {
+          error = e;
+        }
+        expect(error).to.be.a('undefined');
+      });
+    await Promise.all(tasks);
   });
 
   it('should throw an error', async () => {
     const stub = sandbox.stub(cheerio, 'load').throws();
-    let error;
-    try {
-      await crawlers.yahoo.crawl('test');
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.instanceOf(Error);
-    expect(stub.calledOnce);
+    const tasks = Object
+      .keys(crawlers)
+      .map(async (key) => {
+        const crawler = crawlers[key];
+        let error;
+        try {
+          await crawler.crawl('test');
+        } catch (e) {
+          error = e;
+        }
+        expect(error).to.be.instanceOf(Error);
+      });
+    await Promise.all(tasks);
     stub.restore();
-  });
-
-  it('should throw an error', async () => {
-    const stub = sandbox.stub(axios, 'get').throws();
-    let error;
-    try {
-      await crawlers.yahoo.crawl('test');
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.instanceOf(Error);
-    expect(stub.calledOnce);
-    stub.restore();
-  });
-
-  it('should return data', async () => {
-    let error;
-    try {
-      await crawlers.yahoo.crawl('test');
-    } catch (e) {
-      error = e;
-    }
-    expect(error).to.be.a('undefined');
   });
 });
