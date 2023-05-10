@@ -26,5 +26,14 @@
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "sinon": "^15.0.3"
-  }
+  },
+  "files": ["index.js", "src"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hmtonywang/dictionary-crawler"
+  },
+  "bugs": {
+    "url": "https://github.com/hmtonywang/dictionary-crawler/issues"
+  },
+  "homepage": "https://github.com/hmtonywang/dictionary-crawler"
 }

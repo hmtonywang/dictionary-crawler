@@ -7,9 +7,13 @@ A dictionary crawler based on [cheerio](https://www.npmjs.com/package/cheerio), 
 ## Installation
 
 ```shell
-git clone git@github.com:hmtonywang/dictionary-crawler.git
-cd dictionary-crawler
-yarn install
+npm install dictionary-crawler
+```
+
+or
+
+```shell
+yarn add dictionary-crawler
 ```
 
 ## Usage
